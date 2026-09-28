@@ -1,0 +1,56 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+
+        # O(n) is definitely achievable
+        # no hashmap?
+
+        # walk the list, make a copy list,
+        # then walk a second time, and just link to the new randoms?
+        # but how to get the randoms without a map?
+        # can i add another property to the original map that has the new random node?
+        # then just copy that?
+
+        if head is None:
+            return None
+
+        
+        curr = head
+
+        while curr:
+            copy = Node(curr.val)
+            copy.next = curr.random
+            curr.random = copy
+            curr = curr.next
+
+        new_h = head.random
+
+        curr = head
+        while curr:
+            copy = curr.random
+            copy.random = copy.next.random if copy.next else None
+            curr = curr.next
+        
+        curr = head
+        while curr is not None:
+            copy = curr.random
+            curr.random = copy.next
+            copy.next = curr.next.random if curr.next else None
+            curr = curr.next
+        
+        return new_h
+
+
+
+
+
+
+
